@@ -12,7 +12,7 @@ router.post("/users", async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
-    // sendWelcomeEmail(user.email, user.name)
+    sendWelcomeEmail(user.email, user.name)
     const token = await user.generateAuthToken();
     res.status(201).send({ user, token });
   } catch (e) {
@@ -154,10 +154,9 @@ router.patch("/users/me", auth, async (req, res) => {
 router.delete("/users/me", auth,  async (req, res) => {
   try {
    await req.user.remove()
-  // sendCancelEmail(req.user.email, req.user.name)
+  sendCancelEmail(req.user.email, req.user.name)
     res.send(req.user);
   } catch (e) {
-    console.log(e);
     res.status(401).send(e);
   }
 });
